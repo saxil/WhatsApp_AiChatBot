@@ -58,10 +58,10 @@ def reply():
             cakes = ["Red Velvet", "Dark Forest", "Ice Cream Cake", "Plum Cake", "Sponge Cake", "Genoise Cake",
                      "Carrot Cake", "Butterscotch"]
             selected = cakes[option - 1]
-            users.update_one({"number": number}, {"$set": {"status": "address"}})
             users.update_one(
-                {"number": number}, {"$set": {"item": selected}}
-            )
+                {"number": number}, {"$set": {"status": "address"}})
+            users.update_one(
+                {"number": number}, {"$set": {"item": selected}})
             res.message("Excellent Choice.")
             res.message("Please enter your address to confirm the order.")
         else:
@@ -71,6 +71,8 @@ def reply():
         res.message("Thanks shopping with us!")
         res.message(f"Your order {selected} has been received and will be delivered within an hour")
         orders.insert_one({"number": number, "item": selected, "address": text, "order_time": datetime.now()})
+        users.update_one(
+            {"number": number}, {"$set": {"status": "ordered"}})
     elif user["status"]=="ordered":
         res.message(
             "You can select one of the following to order:\n\n1️⃣ Red Velvet \n2️⃣ Dark Forest\n3️⃣ Ice Cream "
