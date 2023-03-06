@@ -52,25 +52,27 @@ def reply():
             res.message("Please enter a valid response")
             return str(res)
         if option == 0:
-            users.update_one({"numbers": number}, {"$set": {"status": "main"}})
-            res.message("You can choose from one of the options below:\n\nType\n\n1️⃣ To *Contact* us\n2️⃣ To *Order* "
-                        "snacks\n3️⃣ To know our *Working hours*\n4️⃣ To get our *Address*")
+            users.update_one(
+                {"number": number}, {"$set": {"status": "main"}})
+            res.message("You can choose from one of the options below: "
+                        "\n\n*Type*\n\n 1️⃣ To *contact* us \n 2️⃣ To *order* snacks \n 3️⃣ To know our *working hours* \n 4️⃣ "
+                        "To get our *address*")
         elif 1 <= option <= 9:
-            cakes = ["Red Velvet", "Dark Forest", "Ice Cream Cake", "Plum Cake", "Sponge Cake", "Genoise Cake",
-                     "Carrot Cake", "Butterscotch"]
+            cakes = ["Red Velvet Cake", "Dark Forest Cake", "Ice Cream Cake",
+                     "Plum Cake", "Sponge Cake", "Genoise Cake", "Angel Cake", "Carrot Cake", "Fruit Cake"]
             selected = cakes[option - 1]
             users.update_one(
                 {"number": number}, {"$set": {"status": "address"}})
             users.update_one(
                 {"number": number}, {"$set": {"item": selected}})
-            res.message("Excellent Choice.")
-            res.message("Please enter your address to confirm the order.")
+            res.message("Excellent choice 😉")
+            res.message("Please enter your address to confirm the order")
         else:
-            res.message("Please enter a valid response.")
+            res.message("Please enter a valid response")
     elif user["status"] == "address":
         selected = user["item"]
-        res.message("Thanks for shopping with us.")
-        res.message(f"Your order for *{selected}* has been received and will be delivered to {text} within an hour")
+        res.message("Thanks for shopping with us 😊")
+        res.message(f"Your order for *{selected}* has been received and will be delivered within an hour")
         orders.insert_one({"number": number, "item": selected, "address": text, "order_time": datetime.now()})
         users.update_one(
             {"number": number}, {"$set": {"status": "ordered"}})
@@ -82,6 +84,7 @@ def reply():
             {"number": number}, {"$set": {"status": "main"}})
     users.update_one({"number": number}, {"$push": {"messages": {"text": text, "date": datetime.now()}}})
     return str(res)
+
 
 
 if __name__ == "__main__":
