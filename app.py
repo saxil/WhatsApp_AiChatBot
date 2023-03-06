@@ -3,8 +3,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from pymongo import MongoClient
 from datetime import datetime
 
-cluster = MongoClient("mongodb+srv://jain:jain@cluster0.fjuymq7.mongodb.net/?retryWrites=true&w=majority", tls=True,
-                      tlsAllowInvalidCertificates=True)
+cluster = MongoClient("mongodb+srv://jain:jain@cluster0.fjuymq7.mongodb.net/?retryWrites=true&w=majority", tls=True,tlsAllowInvalidCertificates=True)
 db = cluster["bakery"]
 users = db["users"]
 orders = db["orders"]
@@ -16,8 +15,7 @@ app = Flask(__name__)
 def reply():
     text = request.form.get("Body")
     number = request.form.get("From")
-    if number is not None:
-      number = number.replace("whatsapp:", "") 
+    number = number.replace("whatsapp:", "")[:-2]
     res = MessagingResponse()
     user = users.find_one({"numbers": number})
     if not bool(user):
@@ -70,12 +68,12 @@ def reply():
         else:
             res.message("Please enter a valid response")
     elif user["status"] == "address":
-        selected = user["item"]
-        res.message("Thanks for shopping with us 😊")
-        res.message(f"Your order for *{selected}* has been received and will be delivered within an hour")
-        orders.insert_one({"number": number, "item": selected, "address": text, "order_time": datetime.now()})
-        users.update_one(
-            {"number": number}, {"$set": {"status": "ordered"}})
+      
+      selected = user["item"]
+      res.message("Thanks for shopping with us 😊")
+      res.message(f"Your order for *{selected}* has been received and will be delivered to {text} within an hour")
+      orders.insert_one({"number": number, "item": selected, "address": text, "order_time": datetime.now()})
+      users.update_one({"number": number}, {"$set": {"status": "ordered"}})
     elif user["status"] == "ordered":
         res.message("Hi, thanks for contacting again.\nYou can choose from one of the options below: "
                     "\n\n*Type*\n\n 1️⃣ To *contact* us \n 2️⃣ To *order* snacks \n 3️⃣ To know our *working hours* \n 4️⃣ "
