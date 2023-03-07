@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from datetime import datetime
 
 # Replace YOUR_URL with your mongodb url
-cluster = MongoClient("mongodb+srv://jain:jain@cluster0.fjuymq7.mongodb.net/?retryWrites=true&w=majority", tls=True,tlsAllowInvalidCertificates=True")
+cluster = MongoClient("mongodb+srv://jain:jain@cluster0.fjuymq7.mongodb.net/?retryWrites=true&w=majority", tls=True,tlsAllowInvalidCertificates=True)
 db = cluster["bakery"]
 users = db["users"]
 orders = db["orders"]
