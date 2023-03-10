@@ -34,7 +34,7 @@ def reply():
 
         if option == 1:
             res.message(
-                "You can contact us through phone or e-mail.\n\n*Phone*: 991234 56789 \n*E-mail* : contact@theredvelvet.io")
+                "You can contact us through Telephone, Mobile , Fax , E-mail.\n\n*Telephone*: +91 1244031900 ,1244032372, 1244031100, 1244032372, 1244031200 \n*Mobile*: +919899133500 \n*Fax*:+91 124 2372300, 4265300  \n*E-mail* : sales@indiantransformers.com, info@indiantransformers.com")
         elif option == 2:
             res.message("You have entered *ordering mode*.")
             users.update_one(
@@ -47,7 +47,8 @@ def reply():
 
         elif option == 4:
             res.message(
-                "We have multiple stores across the city. Our main center is at *4/54, New Delhi*")
+                '''We have multiple stores across the city. Our main center is at *38th Km. Stone, N.H. - 8, Behrampur Road
+Sector - 34, GURGAON - 122004 (HR.)*''')
         else:
             res.message("Please enter a valid response")
     elif user["status"] == "ordering":
@@ -70,14 +71,14 @@ def reply():
                 {"number": number}, {"$set": {"status": "address"}})
             users.update_one(
                 {"number": number}, {"$set": {"item": selected}})
-            res.message("Excellent choice 😉")
-            res.message("Please enter your address to confirm the order")
+            res.message("Excellent choice.")
+            res.message(f"Please enter your address to confirm the {selected}")
         else:
             res.message("Please enter a valid response")
     elif user["status"] == "address":
         selected = user["item"]
-        res.message("Thanks for shopping with us 😊")
-        res.message(f"Your order for *{selected}* has been received and will be delivered within an hour")
+        res.message("Thanks for shopping with us.")
+        res.message(f"Your order for *{selected}* has been received and will be delivered at {text} within an hour")
         orders.insert_one({"number": number, "item": selected, "address": text, "order_time": datetime.now()})
         users.update_one(
             {"number": number}, {"$set": {"status": "ordered"}})
