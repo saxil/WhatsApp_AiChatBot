@@ -34,7 +34,7 @@ def reply():
 
         if option == 1:
             res.message(
-                "You can contact us through Telephone, Mobile , Fax , E-mail.\n\n*Telephone*: +91 1244031900 ,1244032372, 1244031100, 1244032372, 1244031200 \n*Mobile*: +919899133500 \n*Fax*:+91 124 2372300, 4265300  \n*E-mail* : sales@indiantransformers.com, info@indiantransformers.com")
+                "You can contact us through Phone,  E-mail.\n\n*Phone*: 9899221133 \n*E-mail* : help@redvelvet.in")
         elif option == 2:
             res.message("You have entered *ordering mode*.")
             users.update_one(
@@ -47,8 +47,7 @@ def reply():
 
         elif option == 4:
             res.message(
-                '''We have multiple stores across the city. Our main center is at *38th Km. Stone, N.H. - 8, Behrampur Road
-Sector - 34, GURGAON - 122004 (HR.)*''')
+                '''We have multiple stores across the city. Our main center is at *4/54, Delhi*''')
         else:
             res.message("Please enter a valid response")
     elif user["status"] == "ordering":
